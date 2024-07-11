@@ -6,12 +6,12 @@ from setuptools import setup
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setup(
-    name="guolei-py3-铁虎",
-    version="0.0.4",
+    name="guolei-py3-tiehu",
+    version="0.0.5",
     description="铁虎 API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/guolei19850528/guolei_py3_铁虎",
+    url="https://github.com/guolei19850528/guolei_py3_tiehu",
     author="guolei",
     author_email="174000902@qq.com",
     license="MIT",
