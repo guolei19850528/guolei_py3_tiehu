@@ -87,29 +87,24 @@ class Api(object):
                                       i != "appKey"]) + f"{hashlib.md5(self.app_key.encode('utf-8')).hexdigest().upper()}"
         return hashlib.md5(sign_temp.encode('utf-8')).hexdigest().upper()
 
-    def query_pklot(
+    def _requests_request_with_json(
             self,
+            path: str = "",
             requests_request_kwargs_json: dict = {},
             requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
             requests_request_args: Iterable = tuple(),
             requests_request_kwargs: dict = {},
     ):
-        """
-        获取车场信息
-
-        @see https://www.showdoc.com.cn/1735808258920310/8101548494440115
-        :param requests_request_kwargs_json:
-        :param requests_response_callable:
-        :param requests_request_args:
-        :param requests_request_kwargs:
-        :return:
-        """
+        if not isinstance(path, str):
+            raise TypeError(f"path must be type str")
+        if not len(path):
+            raise ValueError("path must not be empty")
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
         requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
         requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
         requests_request_kwargs = Dict(requests_request_kwargs)
         requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/queryPklot",
+            "url": f"{self.base_url}{path}",
             "method": "POST",
             "json": {
                 **requests_request_kwargs_json,
@@ -124,8 +119,36 @@ class Api(object):
             requests_request_kwargs=requests_request_kwargs
         )
 
+    def query_pklot(
+            self,
+            path: str = "/cxzn/interface/queryPklot",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        获取车场信息
+
+        @see https://www.showdoc.com.cn/1735808258920310/8101548494440115
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
     def get_park_info(
             self,
+            path: str = "/cxzn/interface/getParkinfo",
             requests_request_kwargs_json: dict = {},
             requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
             requests_request_args: Iterable = tuple(),
@@ -141,21 +164,9 @@ class Api(object):
         :param requests_request_kwargs:
         :return:
         """
-        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
-        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
-        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
-        requests_request_kwargs = Dict(requests_request_kwargs)
-        requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/getParkinfo",
-            "method": "POST",
-            "json": {
-                **requests_request_kwargs_json,
-                **requests_request_kwargs.json,
-            },
-            **requests_request_kwargs,
-        })
-        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
-        return requests_request(
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
             requests_response_callable=requests_response_callable,
             requests_request_args=requests_request_args,
             requests_request_kwargs=requests_request_kwargs
@@ -163,6 +174,7 @@ class Api(object):
 
     def get_park_car_type(
             self,
+            path: str = "/cxzn/interface/getParkCarType",
             requests_request_kwargs_json: dict = {},
             requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
             requests_request_args: Iterable = tuple(),
@@ -172,28 +184,16 @@ class Api(object):
         获取车场车类信息
 
         @see https://www.showdoc.com.cn/1735808258920310/8123742304976411
+        :param path:
         :param requests_request_kwargs_json:
         :param requests_response_callable:
         :param requests_request_args:
         :param requests_request_kwargs:
         :return:
         """
-        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
-        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
-        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
-        requests_request_kwargs = Dict(requests_request_kwargs)
-        requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/getParkCarType",
-            "method": "POST",
-            "json": {
-                **requests_request_kwargs_json,
-                **requests_request_kwargs.json,
-
-            },
-            **requests_request_kwargs,
-        })
-        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
-        return requests_request(
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
             requests_response_callable=requests_response_callable,
             requests_request_args=requests_request_args,
             requests_request_kwargs=requests_request_kwargs
@@ -201,6 +201,7 @@ class Api(object):
 
     def get_park_car_model(
             self,
+            path: str = "/cxzn/interface/getParkCarModel",
             requests_request_kwargs_json: dict = {},
             requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
             requests_request_args: Iterable = tuple(),
@@ -210,27 +211,16 @@ class Api(object):
         获取车场车型信息
 
         @see https://www.showdoc.com.cn/1735808258920310/8124621936669037
+        :param path:
         :param requests_request_kwargs_json:
         :param requests_response_callable:
         :param requests_request_args:
         :param requests_request_kwargs:
         :return:
         """
-        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
-        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
-        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
-        requests_request_kwargs = Dict(requests_request_kwargs)
-        requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/getParkCarModel",
-            "method": "POST",
-            "json": {
-                **requests_request_kwargs_json,
-                **requests_request_kwargs.json,
-            },
-            **requests_request_kwargs,
-        })
-        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
-        return requests_request(
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
             requests_response_callable=requests_response_callable,
             requests_request_args=requests_request_args,
             requests_request_kwargs=requests_request_kwargs
@@ -238,6 +228,7 @@ class Api(object):
 
     def pay_monthly(
             self,
+            path: str = "/cxzn/interface/payMonthly",
             requests_request_kwargs_json: dict = {},
             requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1,
             requests_request_args: Iterable = tuple(),
@@ -247,27 +238,16 @@ class Api(object):
         月卡续期
 
         @see https://www.showdoc.com.cn/1735808258920310/10765088021068182
+        :param path:
         :param requests_request_kwargs_json:
         :param requests_response_callable:
         :param requests_request_args:
         :param requests_request_kwargs:
         :return:
         """
-        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
-        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
-        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
-        requests_request_kwargs = Dict(requests_request_kwargs)
-        requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/payMonthly",
-            "method": "POST",
-            "json": {
-                **requests_request_kwargs_json,
-                **requests_request_kwargs.json,
-            },
-            **requests_request_kwargs,
-        })
-        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
-        return requests_request(
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
             requests_response_callable=requests_response_callable,
             requests_request_args=requests_request_args,
             requests_request_kwargs=requests_request_kwargs
@@ -275,6 +255,7 @@ class Api(object):
 
     def get_monthly_rent(
             self,
+            path: str = "/cxzn/interface/getMonthlyRent",
             requests_request_kwargs_json: dict = {},
             requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
             requests_request_args: Iterable = tuple(),
@@ -284,27 +265,16 @@ class Api(object):
         用于获取月租信息
 
         @see https://www.showdoc.com.cn/1735808258920310/8140245610945503
+        :param path:
         :param requests_request_kwargs_json:
         :param requests_response_callable:
         :param requests_request_args:
         :param requests_request_kwargs:
         :return:
         """
-        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
-        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
-        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
-        requests_request_kwargs = Dict(requests_request_kwargs)
-        requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/getMonthlyRent",
-            "method": "POST",
-            "json": {
-                **requests_request_kwargs_json,
-                **requests_request_kwargs.json,
-            },
-            **requests_request_kwargs,
-        })
-        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
-        return requests_request(
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
             requests_response_callable=requests_response_callable,
             requests_request_args=requests_request_args,
             requests_request_kwargs=requests_request_kwargs
@@ -312,6 +282,7 @@ class Api(object):
 
     def del_monthly_rent(
             self,
+            path: str = "/cxzn/interface/delMonthlyRent",
             requests_request_kwargs_json: dict = {},
             requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1,
             requests_request_args: Iterable = tuple(),
@@ -321,27 +292,16 @@ class Api(object):
         用于删除月租信息
 
         @see https://www.showdoc.com.cn/1735808258920310/8139961106723173
+        :param path:
         :param requests_request_kwargs_json:
         :param requests_response_callable:
         :param requests_request_args:
         :param requests_request_kwargs:
         :return:
         """
-        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
-        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
-        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
-        requests_request_kwargs = Dict(requests_request_kwargs)
-        requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/delMonthlyRent",
-            "method": "POST",
-            "json": {
-                **requests_request_kwargs_json,
-                **requests_request_kwargs.json,
-            },
-            **requests_request_kwargs,
-        })
-        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
-        return requests_request(
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
             requests_response_callable=requests_response_callable,
             requests_request_args=requests_request_args,
             requests_request_kwargs=requests_request_kwargs
@@ -349,6 +309,7 @@ class Api(object):
 
     def save_monthly_rent(
             self,
+            path: str = "/cxzn/interface/saveMonthlyRent",
             requests_request_kwargs_json: dict = {},
             requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1,
             requests_request_args: Iterable = tuple(),
@@ -358,27 +319,16 @@ class Api(object):
         用于对车场月租车信息增加或修改
 
         @see https://www.showdoc.com.cn/1735808258920310/8137812760676532
+        :param path:
         :param requests_request_kwargs_json:
         :param requests_response_callable:
         :param requests_request_args:
         :param requests_request_kwargs:
         :return:
         """
-        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
-        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
-        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
-        requests_request_kwargs = Dict(requests_request_kwargs)
-        requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/saveMonthlyRent",
-            "method": "POST",
-            "json": {
-                **requests_request_kwargs_json,
-                **requests_request_kwargs.json,
-            },
-            **requests_request_kwargs,
-        })
-        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
-        return requests_request(
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
             requests_response_callable=requests_response_callable,
             requests_request_args=requests_request_args,
             requests_request_kwargs=requests_request_kwargs
@@ -386,6 +336,7 @@ class Api(object):
 
     def get_monthly_rent_list(
             self,
+            path: str = "/cxzn/interface/getMonthlyRentList",
             requests_request_kwargs_json: dict = {},
             requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
             requests_request_args: Iterable = tuple(),
@@ -395,27 +346,16 @@ class Api(object):
         用于根据车场ID获取所以月卡车
 
         @see https://www.showdoc.com.cn/1735808258920310/8140994456347800
+        :param path:
         :param requests_request_kwargs_json:
         :param requests_response_callable:
         :param requests_request_args:
         :param requests_request_kwargs:
         :return:
         """
-        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
-        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
-        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
-        requests_request_kwargs = Dict(requests_request_kwargs)
-        requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/getMonthlyRentList",
-            "method": "POST",
-            "json": {
-                **requests_request_kwargs_json,
-                **requests_request_kwargs.json,
-            },
-            **requests_request_kwargs,
-        })
-        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
-        return requests_request(
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
             requests_response_callable=requests_response_callable,
             requests_request_args=requests_request_args,
             requests_request_kwargs=requests_request_kwargs
@@ -423,6 +363,7 @@ class Api(object):
 
     def del_monthly_rent_list(
             self,
+            path: str = "/cxzn/interface/delMonthlyRentList",
             requests_request_kwargs_json: dict = {},
             requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1,
             requests_request_args: Iterable = tuple(),
@@ -432,27 +373,16 @@ class Api(object):
         批量删除月租
 
         https://www.showdoc.com.cn/1735808258920310/8213900511212297
+        :param path:
         :param requests_request_kwargs_json:
         :param requests_response_callable:
         :param requests_request_args:
         :param requests_request_kwargs:
         :return:
         """
-        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
-        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
-        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
-        requests_request_kwargs = Dict(requests_request_kwargs)
-        requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/delMonthlyRentList",
-            "method": "POST",
-            "json": {
-                **requests_request_kwargs_json,
-                **requests_request_kwargs.json,
-            },
-            **requests_request_kwargs,
-        })
-        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
-        return requests_request(
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
             requests_response_callable=requests_response_callable,
             requests_request_args=requests_request_args,
             requests_request_kwargs=requests_request_kwargs
@@ -460,6 +390,7 @@ class Api(object):
 
     def update_plate_info(
             self,
+            path: str = "/cxzn/interface/upatePlateInfo",
             requests_request_kwargs_json: dict = {},
             requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
             requests_request_args: Iterable = tuple(),
@@ -469,30 +400,17 @@ class Api(object):
         修改车牌号
 
         @see https://www.showdoc.com.cn/1735808258920310/8320101904702616
+        :param path:
         :param requests_request_kwargs_json:
         :param requests_response_callable:
         :param requests_request_args:
         :param requests_request_kwargs:
         :return:
         """
-        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
-        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
-        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
-        requests_request_kwargs = Dict(requests_request_kwargs)
-        requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/upatePlateInfo",
-            "method": "POST",
-            "json": {
-                **requests_request_kwargs_json,
-                **requests_request_kwargs.json,
-            },
-            **requests_request_kwargs,
-        })
-        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
-        return requests_request(
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
             requests_response_callable=requests_response_callable,
             requests_request_args=requests_request_args,
             requests_request_kwargs=requests_request_kwargs
         )
-
-
