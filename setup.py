@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 setup(
     name="guolei-py3-tiehu",
-    version="0.0.6",
+    version="0.0.7",
     description="铁虎 API",
     long_description=long_description,
     long_description_content_type="text/markdown",

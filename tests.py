@@ -1,9 +1,11 @@
 import unittest
 
+from guolei_py3_tiehu.parking import Api as GuoleiPy3TiehuParkingApi
 
-class MyTestCase(unittest.TestCase):
-    def test_something(self):
-        self.assertEqual(True, False)  # add assertion here
+
+class GuoleiPy3TiehuTestCase(unittest.TestCase):
+    def test_func1(self):
+        self.assertTrue(True, "Test Failed")  # add assertion here
 
 
 if __name__ == '__main__':
