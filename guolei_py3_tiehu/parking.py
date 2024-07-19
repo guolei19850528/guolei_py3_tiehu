@@ -27,7 +27,6 @@ class RequestsResponseCallable(RequestsResponseCallable):
 
     @staticmethod
     def status_code_200_json_addict_status_1_data(response: Response = None):
-        print(response.json())
         if RequestsResponseCallable.status_code_200_json_addict_status_1(response=response):
             return RequestsResponseCallable.status_code_200_json_addict(response=response).Data
         return Dict({})
@@ -106,9 +105,48 @@ class Api(object):
         :return:
         """
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
+        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
+        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
         requests_request_kwargs = Dict(requests_request_kwargs)
         requests_request_kwargs = Dict({
             "url": f"{self.base_url}/cxzn/interface/queryPklot",
+            "method": "POST",
+            "json": {
+                **requests_request_kwargs_json,
+                **requests_request_kwargs.json,
+            },
+            **requests_request_kwargs,
+        })
+        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
+        return requests_request(
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def get_park_info(
+            self,
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        根据车场编号获取车场信息
+
+        @see https://www.showdoc.com.cn/1735808258920310/8135472441843686
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
+        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
+        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
+        requests_request_kwargs = Dict(requests_request_kwargs)
+        requests_request_kwargs = Dict({
+            "url": f"{self.base_url}/cxzn/interface/getParkinfo",
             "method": "POST",
             "json": {
                 **requests_request_kwargs_json,
@@ -141,6 +179,8 @@ class Api(object):
         :return:
         """
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
+        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
+        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
         requests_request_kwargs = Dict(requests_request_kwargs)
         requests_request_kwargs = Dict({
             "url": f"{self.base_url}/cxzn/interface/getParkCarType",
@@ -177,6 +217,8 @@ class Api(object):
         :return:
         """
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
+        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
+        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
         requests_request_kwargs = Dict(requests_request_kwargs)
         requests_request_kwargs = Dict({
             "url": f"{self.base_url}/cxzn/interface/getParkCarModel",
@@ -212,6 +254,8 @@ class Api(object):
         :return:
         """
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
+        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
+        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
         requests_request_kwargs = Dict(requests_request_kwargs)
         requests_request_kwargs = Dict({
             "url": f"{self.base_url}/cxzn/interface/payMonthly",
@@ -247,6 +291,8 @@ class Api(object):
         :return:
         """
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
+        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
+        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
         requests_request_kwargs = Dict(requests_request_kwargs)
         requests_request_kwargs = Dict({
             "url": f"{self.base_url}/cxzn/interface/getMonthlyRent",
@@ -282,6 +328,8 @@ class Api(object):
         :return:
         """
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
+        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
+        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
         requests_request_kwargs = Dict(requests_request_kwargs)
         requests_request_kwargs = Dict({
             "url": f"{self.base_url}/cxzn/interface/delMonthlyRent",
@@ -317,6 +365,8 @@ class Api(object):
         :return:
         """
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
+        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
+        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
         requests_request_kwargs = Dict(requests_request_kwargs)
         requests_request_kwargs = Dict({
             "url": f"{self.base_url}/cxzn/interface/saveMonthlyRent",
@@ -352,6 +402,8 @@ class Api(object):
         :return:
         """
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
+        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
+        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
         requests_request_kwargs = Dict(requests_request_kwargs)
         requests_request_kwargs = Dict({
             "url": f"{self.base_url}/cxzn/interface/getMonthlyRentList",
@@ -387,6 +439,8 @@ class Api(object):
         :return:
         """
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
+        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
+        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
         requests_request_kwargs = Dict(requests_request_kwargs)
         requests_request_kwargs = Dict({
             "url": f"{self.base_url}/cxzn/interface/delMonthlyRentList",
@@ -422,6 +476,8 @@ class Api(object):
         :return:
         """
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
+        requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
+        requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
         requests_request_kwargs = Dict(requests_request_kwargs)
         requests_request_kwargs = Dict({
             "url": f"{self.base_url}/cxzn/interface/upatePlateInfo",
@@ -439,37 +495,4 @@ class Api(object):
             requests_request_kwargs=requests_request_kwargs
         )
 
-    def get_park_info(
-            self,
-            requests_request_kwargs_json: dict = {},
-            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
-            requests_request_args: Iterable = tuple(),
-            requests_request_kwargs: dict = {},
-    ):
-        """
-        根据车场编号获取车场信息
 
-        @see https://www.showdoc.com.cn/1735808258920310/8135472441843686
-        :param requests_request_kwargs_json:
-        :param requests_response_callable:
-        :param requests_request_args:
-        :param requests_request_kwargs:
-        :return:
-        """
-        requests_request_kwargs_json = Dict(requests_request_kwargs_json)
-        requests_request_kwargs = Dict(requests_request_kwargs)
-        requests_request_kwargs = Dict({
-            "url": f"{self.base_url}/cxzn/interface/getParkinfo",
-            "method": "POST",
-            "json": {
-                **requests_request_kwargs_json,
-                **requests_request_kwargs.json,
-            },
-            **requests_request_kwargs,
-        })
-        requests_request_kwargs.json.sign = self.signature(data=requests_request_kwargs_json)
-        return requests_request(
-            requests_response_callable=requests_response_callable,
-            requests_request_args=requests_request_args,
-            requests_request_kwargs=requests_request_kwargs
-        )
