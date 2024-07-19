@@ -414,3 +414,405 @@ class Api(object):
             requests_request_args=requests_request_args,
             requests_request_kwargs=requests_request_kwargs
         )
+
+    def no_plate_qrcode(
+            self,
+            path: str = "/cxzn/interface/noPlateQRcode",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        无牌车扫码进出
+
+        @see https://www.showdoc.com.cn/1735808258920310/8126754978360309
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def add_visit(
+            self,
+            path: str = "/cxzn/interface/addVisit",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        添加访客信息
+
+        @see https://www.showdoc.com.cn/1735808258920310/8128470439056460
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def discount_rules(
+            self,
+            path: str = "/cxzn/interface/discountRules",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        获取商家打折规则
+
+        @see https://www.showdoc.com.cn/1735808258920310/8129905012273723
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def discount_pay(
+            self,
+            path: str = "/cxzn/interface/discountPay",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        消费打折
+
+        @see https://www.showdoc.com.cn/1735808258920310/8129933624267277
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def lock_car(
+            self,
+            path: str = "/cxzn/interface/lockCar",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        锁车解锁
+
+        @see https://www.showdoc.com.cn/1735808258920310/8133667819627716
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def add_park_black(
+            self,
+            path: str = "/cxzn/interface/addParkBlack",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        增加黑名单
+
+        @see https://www.showdoc.com.cn/1735808258920310/8136736372215363
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def del_park_blacklist(
+            self,
+            path: str = "/cxzn/interface/delParkBlacklist",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        删除黑名单
+
+        @see https://www.showdoc.com.cn/1735808258920310/8137098506679839
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def get_park_gate(
+            self,
+            path: str = "/cxzn/interface/getParkGate",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        获取通道信息
+
+        @see https://www.showdoc.com.cn/1735808258920310/8137217513229837
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def open_gate(
+            self,
+            path: str = "/cxzn/interface/openGate",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        远程开关闸
+
+        @see https://www.showdoc.com.cn/1735808258920310/8137559404404025
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def get_park_device_state(
+            self,
+            path: str = "/cxzn/interface/getParkDeviceState",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        获取设备状态
+
+        @see https://www.showdoc.com.cn/1735808258920310/8319992916311705
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+    def get_park_black_list(
+            self,
+            path: str = "/cxzn/interface/getParkBlackList",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        取黑名单
+
+        @see https://www.showdoc.com.cn/1735808258920310/8320233565337311
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+    def seller_charge(
+            self,
+            path: str = "/cxzn/interface/sellerCharge",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        商家充值
+
+        @see https://www.showdoc.com.cn/1735808258920310/10220990085791896
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+    def seller_charge_list(
+            self,
+            path: str = "/cxzn/interface/sellerChargeList",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        商家优免记录
+
+        @see https://www.showdoc.com.cn/1735808258920310/10253020764496033
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def get_park_seller_list(
+            self,
+            path: str = "/cxzn/interface/getParkSellerList",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        获取车场商家信息
+
+        @see https://www.showdoc.com.cn/1735808258920310/10448498488229052
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
+
+    def delete_visit(
+            self,
+            path: str = "/cxzn/interface/deleteVisit",
+            requests_request_kwargs_json: dict = {},
+            requests_response_callable: Callable = RequestsResponseCallable.status_code_200_json_addict_status_1_data,
+            requests_request_args: Iterable = tuple(),
+            requests_request_kwargs: dict = {},
+    ):
+        """
+        取消访客车
+
+        @see https://www.showdoc.com.cn/1735808258920310/11121297008173537
+        :param path:
+        :param requests_request_kwargs_json:
+        :param requests_response_callable:
+        :param requests_request_args:
+        :param requests_request_kwargs:
+        :return:
+        """
+        return self._requests_request_with_json(
+            path=path,
+            requests_request_kwargs_json=requests_request_kwargs_json,
+            requests_response_callable=requests_response_callable,
+            requests_request_args=requests_request_args,
+            requests_request_kwargs=requests_request_kwargs
+        )
