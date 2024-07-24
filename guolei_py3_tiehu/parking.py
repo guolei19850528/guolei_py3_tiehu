@@ -96,20 +96,19 @@ class Api(object):
             requests_request_kwargs: dict = {},
     ):
         """
-        :param path:
-        :param requests_request_kwargs_json:
-        :param requests_response_callable:
-        :param requests_request_args:
-        :param requests_request_kwargs:
-        :return:
 
         @see https://www.showdoc.com.cn/1735808258920310/9467753400037587
+        :param path: example /cxzn/interface/queryPklot
+        :param requests_request_kwargs_json: json data
+        :param requests_response_callable: guolei_py3_requests.RequestsResponseCallable instance
+        :param requests_request_args: guolei_py3_requests.requests_request(*requests_request_args, **requests_request_kwargs)
+        :param requests_request_kwargs: guolei_py3_requests.requests_request(*requests_request_args, **requests_request_kwargs)
+        :return:
         """
         if not isinstance(path, str):
             raise TypeError(f"path must be type str")
         if not len(path):
             raise ValueError("path must not be empty")
-        path = f"/{path}" if not path.startswith('/') else path
         requests_request_kwargs_json = Dict(requests_request_kwargs_json)
         requests_request_kwargs_json.setdefault("parkingId", self.parking_id)
         requests_request_kwargs_json.setdefault("timestamp", self.timestamp())
