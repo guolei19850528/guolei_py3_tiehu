@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 setup(
     name="guolei-py3-tiehu",
-    version="0.0.11",
+    version="2.0.0",
     description="铁虎 API",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -18,10 +18,10 @@ setup(
     keywors=["铁虎", "tiehu"],
     packages=setuptools.find_packages('./'),
     install_requires=[
+        "guolei-py3-requests",
         "addict",
         "retrying",
-        "pydantic",
-        "guolei-py3-requests",
+        "jsonschema",
     ],
     python_requires='>=3.0',
     zip_safe=False
