@@ -9,41 +9,28 @@ Github：https://github.com/guolei19850528/guolei_py3_tiehu
 =================================================
 """
 import hashlib
-from datetime import datetime
-from typing import Callable, Any
 import json
-from addict import Dict
-from guolei_py3_requests.library import ResponseCallable, request
-from jsonschema.validators import Draft202012Validator
+from datetime import datetime
+from typing import Callable
+
+import requests
 from requests import Response
 
 
-class ResponseCallable(ResponseCallable):
+class ResponseCallable(object):
     """
-    Response Callable Class
+    Response Callable
     """
 
     @staticmethod
-    def json_addict__status_is_1___Data(response: Response = None, status_code: int = 200):
-        json_addict = ResponseCallable.json_addict(response=response, status_code=status_code)
-        if Draft202012Validator({
-            "type": "object",
-            "properties": {
-                "errcode": {
-                    "status": [
-                        {"type": "integer", "const": 1},
-                        {"type": "string", "const": "1"},
-                    ],
-                    "Data": {"type": "string", "minLength": 1}
-                },
-            },
-            "required": ["status", "Data"]
-        }).is_valid(json_addict):
-            return json.loads(json_addict.get("Data", ""))
-        return Dict({})
+    def json_addict_status_1_data(response: Response = None, status_code: int = 200):
+        json_data = response.json() if response.status_code == status_code else dict()
+        if int(json_data.get("status", -1)) == 1:
+            return json.loads(json_data.get("Data", ""))
+        return None
 
 
-class UrlsSetting:
+class UrlSetting(object):
     CXZN__INTERFACE__QUERYPKLOT = "/cxzn/interface/queryPklot"
     CXZN__INTERFACE__GETPARKCARTYPE = "/cxzn/interface/getParkCarType"
     CXZN__INTERFACE__GETPARKCARMODEL = "/cxzn/interface/getParkCarModel"
@@ -103,63 +90,137 @@ class Api(object):
 
     def signature(
             self,
-            data: dict = {},
+            data: dict = None,
     ):
-        signature_temp = ""
-        data = Dict(data) if isinstance(data, Dict) else Dict()
+        temp_string = ""
+        data = data or dict()
         if data.keys():
             data_sorted = sorted(data.keys())
             if isinstance(data_sorted, list):
-                signature_temp = "&".join([
+                temp_string = "&".join([
                     f"{i}={data[i]}"
                     for i in
                     data_sorted if
                     i != "appKey"
                 ]) + f"{hashlib.md5(self.app_key.encode('utf-8')).hexdigest().upper()}"
-        return hashlib.md5(signature_temp.encode('utf-8')).hexdigest().upper()
+        return hashlib.md5(temp_string.encode('utf-8')).hexdigest().upper()
 
-    def post(
-            self,
-            response_callable: Callable = ResponseCallable.json_addict__status_is_1___Data,
-            url: str = None,
-            params: Any = None,
-            data: Any = None,
-            json: Any = None,
-            headers: Any = None,
-            **kwargs: Any
-    ):
-        json = Dict(params) if isinstance(json, dict) else Dict()
+    def get(self, on_response_callback: Callable = ResponseCallable.json_addict_status_1_data, path: str = None,
+            **kwargs):
+        """
+        execute get by requests.get
+
+        headers.setdefault("Token", self.token_data.get("token", ""))
+
+        headers.setdefault("Companycode", self.token_data.get("companyCode", ""))
+
+        :param on_response_callback: response callback
+        :param path: if url is None: url=f"{self.base_url}{path}"
+        :param kwargs: requests.get(**kwargs)
+        :return: on_response_callback(response) or response
+        """
+        path = kwargs.get("url", None) or f"{self.base_url}{path}"
+        kwargs.update([
+            ("url", path),
+        ])
+        response = requests.get(**kwargs)
+        if isinstance(on_response_callback, Callable):
+            return on_response_callback(response)
+        return response
+
+    def post(self, on_response_callback: Callable = ResponseCallable.json_addict_status_1_data, path: str = None,
+             **kwargs):
+        """
+        execute post by requests.post
+
+        headers.setdefault("Token", self.token_data.get("token", ""))
+
+        headers.setdefault("Companycode", self.token_data.get("companyCode", ""))
+
+        :param on_response_callback: response callback
+        :param path: if url is None: url=f"{self.base_url}{path}"
+        :param kwargs: requests.get(**kwargs)
+        :return: on_response_callback(response) or response
+        """
+        path = kwargs.get("url", None) or f"{self.base_url}{path}"
+        kwargs.update([
+            ("url", path),
+        ])
+        response = requests.post(**kwargs)
+        if isinstance(on_response_callback, Callable):
+            return on_response_callback(response)
+        return response
+
+    def put(self, on_response_callback: Callable = ResponseCallable.json_addict_status_1_data, path: str = None,
+            **kwargs):
+        """
+        execute put by requests.put
+
+        headers.setdefault("Token", self.token_data.get("token", ""))
+
+        headers.setdefault("Companycode", self.token_data.get("companyCode", ""))
+
+        :param on_response_callback: response callback
+        :param path: if url is None: url=f"{self.base_url}{path}"
+        :param kwargs: requests.get(**kwargs)
+        :return: on_response_callback(response) or response
+        """
+        path = kwargs.get("url", None) or f"{self.base_url}{path}"
+        kwargs.update([
+            ("url", path),
+        ])
+        response = requests.put(**kwargs)
+        if isinstance(on_response_callback, Callable):
+            return on_response_callback(response)
+        return response
+
+    def request(self, on_response_callback: Callable = ResponseCallable.json_addict_status_1_data, path: str = None,
+                **kwargs):
+        """
+        execute request by requests.request
+
+        headers.setdefault("Token", self.token_data.get("token", ""))
+
+        headers.setdefault("Companycode", self.token_data.get("companyCode", ""))
+
+        :param on_response_callback: response callback
+        :param path: if url is None: url=f"{self.base_url}{path}"
+        :param kwargs: requests.get(**kwargs)
+        :return: on_response_callback(response) or response
+        """
+        path = kwargs.get("url", None) or f"{self.base_url}{path}"
+        kwargs.update([
+            ("url", path),
+        ])
+        response = requests.request(**kwargs)
+        if isinstance(on_response_callback, Callable):
+            return on_response_callback(response)
+        return response
+
+    def post_json(self, on_response_callback: Callable = ResponseCallable.json_addict_status_1_data, path: str = None,
+                  **kwargs):
+        """
+        execute post by requests.post
+
+        headers.setdefault("Token", self.token_data.get("token", ""))
+
+        headers.setdefault("Companycode", self.token_data.get("companyCode", ""))
+
+        :param on_response_callback: response callback
+        :param path: if url is None: url=f"{self.base_url}{path}"
+        :param kwargs: requests.get(**kwargs)
+        :return: on_response_callback(response) or response
+        """
+        path = kwargs.get("url", None) or f"{self.base_url}{path}"
+        json = kwargs.get("json", dict())
         json.setdefault("parkingId", self.parking_id)
         json.setdefault("timestamp", int(datetime.now().timestamp()))
         json.setdefault("sign", self.signature(json))
-        return self.request(
-            response_callable=response_callable,
-            method="POST",
-            url=url,
-            params=params,
-            data=data,
-            json=json.to_dict(),
-            headers=headers,
-            **kwargs
-        )
-
-    def request(
-            self,
-            response_callable: Callable = ResponseCallable.json_addict__status_is_1___Data,
-            method: str = "GET",
-            url: str = None,
-            params: Any = None,
-            headers: Any = None,
-            **kwargs
-    ):
-        if not Draft202012Validator({"type": "string", "minLength": 1, "pattern": "^http"}).is_valid(url):
-            url = f"/{url}" if not url.startswith("/") else url
-            url = f"{self.base_url}{url}"
-        return request(
-            response_callable=response_callable,
-            method=method,
-            url=url,
-            params=params,
-            headers=headers,
-            **kwargs
-        )
+        kwargs.update([
+            ("json", json),
+            ("url", path),
+        ])
+        response = requests.post(**kwargs)
+        if isinstance(on_response_callback, Callable):
+            return on_response_callback(response)
+        return response
