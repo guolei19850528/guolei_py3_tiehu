@@ -14,19 +14,33 @@ from datetime import datetime
 from typing import Callable
 
 import requests
+from addict import Dict
+from guolei_py3_requests.library import ResponseCallback, Request
+from jsonschema.validators import Draft202012Validator
 from requests import Response
 
 
-class ResponseCallable(object):
+class ResponseCallback(ResponseCallback):
     """
     Response Callable
     """
 
     @staticmethod
     def json_addict_status_1_data(response: Response = None, status_code: int = 200):
-        json_data = response.json() if response.status_code == status_code else dict()
-        if int(json_data.get("status", -1)) == 1:
-            return json.loads(json_data.get("Data", ""))
+        json_addict = ResponseCallback.json_addict(response=response, status_code=status_code)
+        if Draft202012Validator({
+            "type": "object",
+            "properties": {
+                "status": {
+                    "oneOf": [
+                        {"type": "integer", "const": 1},
+                        {"type": "string", "const": "1"},
+                    ]
+                },
+            },
+            "required": ["status", "Data"]
+        }).is_valid(json_addict):
+            return json.loads(json_addict.get("Data", ""))
         return None
 
 
@@ -53,7 +67,7 @@ class UrlSetting(object):
     CXZN__INTERFACE__DELETEVISITT = "/cxzn/interface/deleteVisit"
 
 
-class Api(object):
+class Api(Request):
     def __init__(
             self,
             base_url: str = "",
@@ -105,30 +119,7 @@ class Api(object):
                 ]) + f"{hashlib.md5(self.app_key.encode('utf-8')).hexdigest().upper()}"
         return hashlib.md5(temp_string.encode('utf-8')).hexdigest().upper()
 
-    def get(self, on_response_callback: Callable = ResponseCallable.json_addict_status_1_data, path: str = None,
-            **kwargs):
-        """
-        execute get by requests.get
-
-        headers.setdefault("Token", self.token_data.get("token", ""))
-
-        headers.setdefault("Companycode", self.token_data.get("companyCode", ""))
-
-        :param on_response_callback: response callback
-        :param path: if url is None: url=f"{self.base_url}{path}"
-        :param kwargs: requests.get(**kwargs)
-        :return: on_response_callback(response) or response
-        """
-        path = kwargs.get("url", None) or f"{self.base_url}{path}"
-        kwargs.update([
-            ("url", path),
-        ])
-        response = requests.get(**kwargs)
-        if isinstance(on_response_callback, Callable):
-            return on_response_callback(response)
-        return response
-
-    def post(self, on_response_callback: Callable = ResponseCallable.json_addict_status_1_data, path: str = None,
+    def post(self, on_response_callback: Callable = ResponseCallback.json_addict_status_1_data, path: str = None,
              **kwargs):
         """
         execute post by requests.post
@@ -142,85 +133,17 @@ class Api(object):
         :param kwargs: requests.get(**kwargs)
         :return: on_response_callback(response) or response
         """
-        path = kwargs.get("url", None) or f"{self.base_url}{path}"
-        kwargs.update([
-            ("url", path),
-        ])
-        response = requests.post(**kwargs)
-        if isinstance(on_response_callback, Callable):
-            return on_response_callback(response)
-        return response
-
-    def put(self, on_response_callback: Callable = ResponseCallable.json_addict_status_1_data, path: str = None,
-            **kwargs):
-        """
-        execute put by requests.put
-
-        headers.setdefault("Token", self.token_data.get("token", ""))
-
-        headers.setdefault("Companycode", self.token_data.get("companyCode", ""))
-
-        :param on_response_callback: response callback
-        :param path: if url is None: url=f"{self.base_url}{path}"
-        :param kwargs: requests.get(**kwargs)
-        :return: on_response_callback(response) or response
-        """
-        path = kwargs.get("url", None) or f"{self.base_url}{path}"
-        kwargs.update([
-            ("url", path),
-        ])
-        response = requests.put(**kwargs)
-        if isinstance(on_response_callback, Callable):
-            return on_response_callback(response)
-        return response
-
-    def request(self, on_response_callback: Callable = ResponseCallable.json_addict_status_1_data, path: str = None,
-                **kwargs):
-        """
-        execute request by requests.request
-
-        headers.setdefault("Token", self.token_data.get("token", ""))
-
-        headers.setdefault("Companycode", self.token_data.get("companyCode", ""))
-
-        :param on_response_callback: response callback
-        :param path: if url is None: url=f"{self.base_url}{path}"
-        :param kwargs: requests.get(**kwargs)
-        :return: on_response_callback(response) or response
-        """
-        path = kwargs.get("url", None) or f"{self.base_url}{path}"
-        kwargs.update([
-            ("url", path),
-        ])
-        response = requests.request(**kwargs)
-        if isinstance(on_response_callback, Callable):
-            return on_response_callback(response)
-        return response
-
-    def post_json(self, on_response_callback: Callable = ResponseCallable.json_addict_status_1_data, path: str = None,
-                  **kwargs):
-        """
-        execute post by requests.post
-
-        headers.setdefault("Token", self.token_data.get("token", ""))
-
-        headers.setdefault("Companycode", self.token_data.get("companyCode", ""))
-
-        :param on_response_callback: response callback
-        :param path: if url is None: url=f"{self.base_url}{path}"
-        :param kwargs: requests.get(**kwargs)
-        :return: on_response_callback(response) or response
-        """
-        path = kwargs.get("url", None) or f"{self.base_url}{path}"
-        json = kwargs.get("json", dict())
-        json.setdefault("parkingId", self.parking_id)
-        json.setdefault("timestamp", int(datetime.now().timestamp()))
-        json.setdefault("sign", self.signature(json))
-        kwargs.update([
-            ("json", json),
-            ("url", path),
-        ])
-        response = requests.post(**kwargs)
-        if isinstance(on_response_callback, Callable):
-            return on_response_callback(response)
-        return response
+        kwargs = Dict(kwargs)
+        url = f"{self.base_url}{path}"
+        kwargs.json = Dict({
+            **{
+                "parkingId": self.parking_id,
+                "timestamp": int(datetime.now().timestamp()),
+                "sign": self.signature({
+                    "parkingId": self.parking_id,
+                    "timestamp": int(datetime.now().timestamp()),
+                })
+            },
+            **kwargs.json
+        })
+        return super().post(on_response_callback=on_response_callback, url=url, **kwargs.to_dict())
