@@ -74,6 +74,7 @@ class Api(Request):
             parking_id: str = "",
             app_key: str = ""
     ):
+        super(Api, self).__init__()
         self._base_url = base_url
         self._parking_id = parking_id
         self._app_key = app_key
